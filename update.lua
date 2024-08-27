@@ -7,7 +7,7 @@ if packagelist == nil then
   print("Package list not found.")
 else
   local pkgname = fs.readLine()
-  while pkgname not nil do
+  while pkgname ~= nil do
     local url = masterurl .. pkgname .. "/updater.lua"
     shell.run("wget run " .. url)
   end
