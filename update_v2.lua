@@ -93,7 +93,7 @@ do
   end
   if upstream_has_changed then
     local file = fs.open(".aepkgs/last_commit.txt","w")
-    file.write(result.node_id)
+    file.write(result[1].sha)
     file.close()
     print("Updates will be downloaded.")
   end
