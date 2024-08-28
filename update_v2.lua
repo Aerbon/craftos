@@ -133,6 +133,7 @@ local newpkgs = {} -- This will be written to oldpkgs
 -- Install new packages
 for pkg in pairs(to_install) do
   print("Installing " .. pkg .. "...")
+  newpkgs[pkg] = {}
   newpkgs[pkg].installed = true
   newpkgs[pkg].version = getLastCommit(pkg .. "/")
 end
