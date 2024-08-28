@@ -141,15 +141,17 @@ end
 -- Check and update staying packages
 for pkg in pairs(to_stay) do
   if to_stay[pkg] then
-    print("Updating " .. pkg .. "...")
     newpkgs[pkg] = {}
     newpkgs[pkg].installed = true
     if upstream_has_changed then
       local latest = getLastCommit(pkg .. "/")
       if oldpkgs[pkg].version ~= latest then
+        print("Updating " .. pkg .. "...")
         shell.run("wget run " .. masterurl .. pkg .. "/update.lua")
       end
       newpkgs[pkg].version = latest
+    else
+      newpkgs[pkg].version = oldpkgs[pkg].version
     end
   end
 end
