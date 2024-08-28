@@ -144,7 +144,7 @@ for pkg in pairs(to_stay) do
     newpkgs[pkg].installed = true
     if upstream_has_changed then
       local latest = getLastCommit(pkg .. "/")
-      if oldpkgs[pkgs].version ~= latest then
+      if oldpkgs[pkg].version ~= latest then
         shell.run("wget run " .. masterurl .. pkg .. "/update.lua")
       end
       newpkgs[pkg].version = latest
