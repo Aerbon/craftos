@@ -134,6 +134,9 @@ local newpkgs = {} -- This will be written to oldpkgs
 for pkg in pairs(to_install) do
   print("Installing " .. pkg .. "...")
   newpkgs[pkg] = {}
+  shell.run("wget run " .. masterurl .. pkg .. "/update.lua")
   newpkgs[pkg].installed = true
   newpkgs[pkg].version = getLastCommit(pkg .. "/")
 end
+
+writeSer(newpkgs, pathtopkglist .. ".old")
