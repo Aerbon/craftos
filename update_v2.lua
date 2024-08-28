@@ -127,8 +127,20 @@ end
 local newpkgs = {} -- This will be written to oldpkgs
 
 -- Remove old packages
+for pkg in pairs(to_remove) do
+  print("Removing " .. pkg .. "...")
+  newpkgs[pkg] = {}
+  shell.run("wget run " .. masterurl .. pkg .. "/remove.lua")
+  newpkgs[pkg].installed = false
+end
 
 -- Check and update staying packages
+for pkg in pairs(to_stay) do
+  print("Updating " .. pkg .. "...")
+  newpkgs[pkg] = {}
+  newpkgs[pkg].installed = true
+  newpkgs[pkg].version = oldpkgs[pkg.version]
+end
 
 -- Install new packages
 for pkg in pairs(to_install) do
