@@ -128,27 +128,33 @@ local newpkgs = {} -- This will be written to oldpkgs
 
 -- Remove old packages
 for pkg in pairs(to_remove) do
-  print("Removing " .. pkg .. "...")
-  newpkgs[pkg] = {}
-  shell.run("wget run " .. masterurl .. pkg .. "/remove.lua")
-  newpkgs[pkg].installed = false
+  if to_remove(package) then
+    print("Removing " .. pkg .. "...")
+    newpkgs[pkg] = {}
+    shell.run("wget run " .. masterurl .. pkg .. "/remove.lua")
+    newpkgs[pkg].installed = false
+  end
 end
 
 -- Check and update staying packages
 for pkg in pairs(to_stay) do
-  print("Updating " .. pkg .. "...")
-  newpkgs[pkg] = {}
-  newpkgs[pkg].installed = true
-  newpkgs[pkg].version = oldpkgs[pkg.version]
+  if to_stay[pkg] then
+    print("Updating " .. pkg .. "...")
+    newpkgs[pkg] = {}
+    newpkgs[pkg].installed = true
+    newpkgs[pkg].version = oldpkgs[pkg.version]
+  end
 end
 
 -- Install new packages
 for pkg in pairs(to_install) do
-  print("Installing " .. pkg .. "...")
-  newpkgs[pkg] = {}
-  shell.run("wget run " .. masterurl .. pkg .. "/update.lua")
-  newpkgs[pkg].installed = true
-  newpkgs[pkg].version = getLastCommit(pkg .. "/")
+  if to_install[pkg] then
+    print("Installing " .. pkg .. "...")
+    newpkgs[pkg] = {}
+    shell.run("wget run " .. masterurl .. pkg .. "/update.lua")
+    newpkgs[pkg].installed = true
+    newpkgs[pkg].version = getLastCommit(pkg .. "/")
+  end
 end
 
 writeSer(newpkgs, pathtopkglist .. ".old")
