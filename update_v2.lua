@@ -86,6 +86,8 @@ do
     if result[1].sha ~= last_commit then
       upstream_has_changed = true
       print("Upstream has changed.")
+      print("old: " .. last_commit)
+      print("new: " .. result[1].sha)
     end
   else
     upstream_has_changed = true
