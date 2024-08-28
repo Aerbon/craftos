@@ -1,6 +1,6 @@
 -- This prefix points to my package repository
 local masterurl = "https://raw.githubusercontent.com/Aerbon/craftos/master/"
-local apiurl = "http://api.github.com/commits/Aerbon/craftos/master"
+local apiurl = "http://api.github.com/repos/Aerbon/craftos/commits"
 
 -- File locations
 local pathtopkglist = ".aepkgs/list.pkgs"
@@ -21,6 +21,7 @@ function getLastCommit(path)
   local response = http.get(request)
   local result = textutils.unserialiseJSON(response.readAll())
   response.close()
+  return result[1].sha
 end
 
 -- Functions for reading serialized data
@@ -44,10 +45,22 @@ function readSer(path)
   end
 end
 
+function writeSer(content, path)
+  local file = fs.open(path, "w")
+  file.write(textutils.serialise(content))
+  file.close()
+end
+
 -- Check for package list files
-local pkgs, oldpkgs
+local pkgs, oldpkgs = {}, {}
 if fs.exists(pathtopkglist) then
   pkgs = readSer(pathtopkglist)
+else
+  print("Creating new package config.")
+  print("edit " .. pathtopkglist .. " to declare packages.")
+  pkgs.testpackage = {}
+  pkgs.testpackage.install = true
+  writeSer(pkgs, pathtopkglist)
 end
 
 if fs.exists(pathtopkglist .. ".old") then
@@ -93,14 +106,14 @@ local to_stay = {}
 local to_remove = {}
 
 for pkg in pairs(pkgs) do
-  if pkgs[pkg].install = "yes" do
+  if pkgs[pkg].install == true then
     to_install[pkg] = true
   end
 end
 
 for pkg in pairs(oldpkgs) do
-  if oldpkgs[pkg].installed = true do
-    if to_install[pkg] == true do
+  if oldpkgs[pkg].installed == true then
+    if to_install[pkg] == true then
       to_install[pkg] = false
       to_stay[pkg] = true
     else
@@ -111,7 +124,7 @@ end
 
 -- Process dependencies (TODO)
 
-local newpkgs = {}
+local newpkgs = {} -- This will be written to oldpkgs
 
 -- Remove old packages
 
@@ -121,5 +134,5 @@ local newpkgs = {}
 for pkg in pairs(to_install) do
   print("Installing " .. pkg .. "...")
   newpkgs[pkg].installed = true
-  newpkgs[pkg].version = getLastCommit(pkg)
+  newpkgs[pkg].version = getLastCommit(pkg .. "/")
 end
