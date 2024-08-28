@@ -98,7 +98,7 @@ do
     print("writing: " .. result[1].sha)
     file.write(result[1].sha)
     file.close()
-    print("Updates will be downloaded.")
+    print("Updates will be checked.")
   end
 end
 
