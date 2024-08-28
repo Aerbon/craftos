@@ -83,7 +83,7 @@ do
     local file = fs.open(".aepkgs/last_commit.txt", "r")
     local last_commit = file.readAll()
     file.close()
-    if result.node_id ~= last_commit then
+    if result[1].sha ~= last_commit then
       upstream_has_changed = true
       print("Upstream has changed.")
     end
