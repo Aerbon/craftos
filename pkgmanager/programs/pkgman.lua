@@ -159,7 +159,7 @@ local function updatePkgs(force)
     print("Creating new package config.")
     print("edit " .. PathToPkgConf .. " to declare packages.")
     config = {
-      packagemanager = {
+      pkgmanager = {
         install = true,
       },
     }
@@ -185,11 +185,8 @@ if args[1] == "update" then
 elseif args[1] == "forceupdate" then
   updatePkgs(true)
 elseif args[1] == "install" then
-  local newargs = {}
-  for i, v in ipairs(args) do
-    newargs[i-1] = args[i]
-  end
-  install(table.unpack(newargs))
+  install(table.unpack(args,2))
 else
-  print("Usage: pkgman < update | forceupdate | < install | remove > [ package1 package2 ... ] >")
+  print("Usage: pkgman <mode> [packages]")
+  print("modes: update, forceupdate, install, remove, list")
 end

@@ -14,7 +14,7 @@ local pkgs = {
 }
 
 local file = fs.open("startup.lua", "w")
-file.write("shell.run(\"sysl\")")
+file.write("shell.run(\"sysl launch\")")
 file.close()
 
 local file = fs.open(".aepkgs/list.pkgs", "w")
@@ -23,4 +23,6 @@ file.close()
 
 -- shell.setPath()
 
-shell.run("wget run " .. pkgs.pkgmanager.upstream .. "pkgmanager/programs/pkgman.lua")
+shell.run("wget " .. pkgs.pkgmanager.upstream .. "pkgmanager/programs/pkgman.lua ".."temp_updater")
+shell.run("temp_updater forceupdate")
+shell.run("rm temp_updater")
