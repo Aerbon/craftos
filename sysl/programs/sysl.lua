@@ -18,6 +18,18 @@ local function launch()
   end
 end
 
-if args[1] == "launch" then
+local subcommands = {}
+subcommands["launch"] = function ()
   launch()
+end
+subcommands["help"] = function ()
+  print("usage: sysl <command> [arguments]")
+  print("commands: launch, help")
+end
+
+local c = subcommands[args[1]]
+if c ~= nil then
+  c(table.unpack(args,2))
+else
+  print("usage: sysl <command> [arguments]")
 end
