@@ -56,7 +56,7 @@ local function tableEq(this, that)
   for key in pairs(that) do
     if keys[key] then else return false end
   end
-  retunr true
+  return true
 end
 
 local function upstreamHasChanged()
@@ -118,16 +118,15 @@ local function configHasChanged(changelog)
   return false
 end
 
-local function multiRequest()
-  local requests = {...}
+local function multiRequest(...)
   local response_count = 0
   local files = {}
-  print("Downloading "..tostring(#args).." files...")
-  for n, request in ipairs(args) do
+  print("Downloading "..tostring(arg.n).." files...")
+  for n, request in ipairs(arg) do
     files[n] = { url = request.url, }
     local response = http.request(request)
   end
-  do
+  repeat
     local event = {os.pullEvent()}
     if event[1] == "http_success" then
       for n in ipairs(files) do
