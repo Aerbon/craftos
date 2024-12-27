@@ -8,6 +8,7 @@ local pkgs = {
     install = true,
     options = {
       sysl = true,
+      upstream = "https://raw.githubusercontent.com/Aerbon/craftos/refs/heads/indev/",
     },
   },
 }
@@ -22,4 +23,4 @@ file.close()
 
 -- shell.setPath()
 
-shell.run("wget run raw.githubusercontent.com/Aerbon/craftos/master/update_v2.lua")
+shell.run("wget run " .. pkgs.pkgmanager.upstream .. "pkgmanager/programs/pkgman.lua")
