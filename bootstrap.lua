@@ -23,6 +23,6 @@ file.close()
 
 -- shell.setPath()
 
-shell.run("wget " .. pkgs.pkgmanager.upstream .. "pkgmanager/programs/pkgman.lua ".."temp_updater")
+shell.run("wget " .. pkgs.pkgmanager.options.upstream .. "pkgmanager/programs/pkgman.lua ".."temp_updater")
 shell.run("temp_updater forceupdate")
 shell.run("rm temp_updater")
